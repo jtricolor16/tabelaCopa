@@ -27,18 +27,19 @@ public class Pais {
 	}
 	
 	public Pais(String nome){
-		this.nome=nome;
+		setNome(nome);
 	}
 	
 	public Pais(PaisRequestBody requestBody){
-		this.nome=requestBody.nome;
+		setNome(requestBody.nome);
 	}
 	
 	//=====================Métodos=================//
 	
 	
 	public void setNome(String nome){
-		this.nome=nome;
+		if(nome!=null && !"".equals(nome))
+			this.nome=nome;
 	}
 	
 	public String getNome(){

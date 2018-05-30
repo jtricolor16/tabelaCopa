@@ -1,28 +1,34 @@
 package br.com.tabelaCopa.validations;
 
+import br.com.tabelaCopa.entities.Jogador;
 import br.com.tabelaCopa.repositories.JogadorRepository;
 
 public class JogadorValidation {
 	
-	public boolean validarJogador(JogadorRepository repository, String cpf, String rg){
-		if(this.validarCpf(repository, cpf)==true && this.validarRg(repository, rg)==true){
+	public boolean validarJogador(JogadorRepository repository, String cpf, String rg, Long id){
+		Jogador jogadorRg=null;
+		
+		if(rg!=null && !"".equals(rg))
+			jogadorRg = repository.findByRg(rg);
+		
+		Jogador jogadorCpf = repository.findByCpf(cpf);
+		
+		if(this.validarString(repository, jogadorCpf, id)==true && this.validarString(repository, jogadorRg, id)==true){
 			return true;
 		}
 		return false;
 	}
 	
-	private boolean validarCpf(JogadorRepository repository, String cpf){
-		
-		if(repository.findByCpf(cpf)==null)
+	private boolean validarString(JogadorRepository repository, Jogador jogador, Long id){
+		if(jogador==null)
 			return true;
 		
-		return false;
-	}
-	
-	private boolean validarRg(JogadorRepository repository, String rg){
-		if(repository.findByRg(rg)==null)
-			return true;
-		
+		if(jogador!=null && id!=null){
+			if(jogador.getId()==id){
+				return true;
+			}
+			return false;
+		}
 		return false;
 	}
 
